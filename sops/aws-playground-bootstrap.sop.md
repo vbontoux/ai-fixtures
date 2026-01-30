@@ -11,6 +11,7 @@ This SOP bootstraps a standardized AWS playground development project for experi
 - **environment_variables** (optional): Additional environment-specific variables (API endpoints, region, account ID, etc.)
 - **include_api_gateway** (optional, default: false): Whether to initialize CDK with API Gateway stack
 - **include_dynamodb** (optional, default: false): Whether to initialize CDK with DynamoDB stack
+- **include_cognito** (optional, default: false): Whether to initialize CDK with Cognito User Pool for authentication
 - **include_frontend** (optional, default: false): Whether to create Vue.js frontend
 - **frontend_config** (optional): Configuration for frontend including title and purpose description for home page
 - **git_remote_url** (optional): Remote repository URL to configure
@@ -40,6 +41,7 @@ Create a comprehensive Makefile at the project root with environment management 
 - You MUST activate `.venv` for scripts commands (using `scripts/.venv`)
 - You MUST activate `.venv` for backend commands (using `backend/.venv`)
 - You MUST include these targets: help, setup, cdk-init, deploy, destroy, test, test-backend, test-frontend (if applicable), run-frontend (if applicable)
+- You MUST install AWS CDK locally in the setup target to enable infrastructure deployment
 - You MUST document all commands in the help target
 - You MUST support ENV parameter override (e.g., `make deploy ENV=staging`)
 
@@ -58,6 +60,8 @@ Set up the CDK directory with Python virtual environment and infrastructure code
 - You MUST separate stacks by service type (compute, storage, networking) to avoid CloudFormation quotas
 - You MUST create API Gateway stack in `cdk/stacks/api_gateway_stack.py` if include_api_gateway is true
 - You MUST create DynamoDB stack in `cdk/stacks/dynamodb_stack.py` if include_dynamodb is true
+- You MUST create Cognito stack in `cdk/stacks/cognito_stack.py` if include_cognito is true
+- You MUST configure API Gateway with Cognito authorizer if both include_api_gateway and include_cognito are true
 
 ### 4. Initialize Scripts Structure
 
@@ -91,6 +95,12 @@ If include_frontend is true, create a Vue.js project with testing support.
 - You MUST customize home page with frontend_config title and purpose if provided
 - You MUST use clean, simple default home page style
 - You MUST create environment configuration files
+- You MUST create login page with authentication form if include_cognito is true
+- You MUST integrate AWS Amplify library for Cognito authentication if include_cognito is true
+- You MUST create a simple menu with link to protected page if include_cognito is true
+- You MUST create one protected page that requires authentication if include_cognito is true
+- You MUST keep home page non-protected (accessible without login) if include_cognito is true
+- You MUST configure Amplify with Cognito User Pool details in environment config if include_cognito is true
 - You MUST NOT create frontend structure if include_frontend is false
 
 ### 7. Create Git Configuration
@@ -142,6 +152,7 @@ environment_variables: {
 }
 include_api_gateway: true
 include_dynamodb: true
+include_cognito: true
 include_frontend: true
 frontend_config: {
   "title": "Serverless API Dashboard",
@@ -163,7 +174,8 @@ serverless-api-experiment/
 │   └── stacks/
 │       ├── main_stack.py
 │       ├── api_gateway_stack.py
-│       └── dynamodb_stack.py
+│       ├── dynamodb_stack.py
+│       └── cognito_stack.py
 ├── scripts/
 │   ├── .venv/
 │   ├── requirements.txt
@@ -179,8 +191,14 @@ serverless-api-experiment/
 ├── frontend/
 │   ├── package.json
 │   ├── src/
-│   │   └── views/
-│   │       └── Home.vue
+│   │   ├── views/
+│   │   │   ├── Home.vue
+│   │   │   ├── Login.vue
+│   │   │   └── Protected.vue
+│   │   ├── router/
+│   │   │   └── index.js
+│   │   └── components/
+│   │       └── Navigation.vue
 │   ├── tests/
 │   └── .env.development
 └── .kiro/
