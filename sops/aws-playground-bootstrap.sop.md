@@ -24,7 +24,7 @@ Create the root directory and all required subdirectories.
 
 **Constraints:**
 - You MUST create `{project_name}/` as the root directory
-- You MUST create `cdk/`, `scripts/`, `backend/`, `.kiro/steering/` subdirectories
+- You MUST create `cdk/`, `scripts/`, `backend/`, `docs/`, `.kiro/steering/` subdirectories
 - You MUST create `frontend/` subdirectory if include_frontend is true
 - You MUST create `backend/tests/` directory for pytest tests
 - You MUST create `frontend/tests/` directory if include_frontend is true
@@ -113,7 +113,21 @@ Set up version control for the project.
 - You MUST configure git_remote_url if provided
 - You SHOULD NOT create initial commit (user handles commits)
 
-### 8. Create Steering Files
+### 8. Create Documentation Structure
+
+Create a documentation folder with initial documentation for the project.
+
+**Constraints:**
+- You MUST create `docs/` directory at the project root
+- You MUST create `docs/README.md` with project overview, architecture description, and setup instructions
+- You MUST create `docs/architecture.md` documenting the CDK stacks, resources, and their relationships
+- You MUST create `docs/deployment.md` with deployment procedures and environment configuration details
+- You MUST create `docs/development.md` with development workflow, testing procedures, and contribution guidelines
+- You MUST document all created AWS resources (API Gateway, DynamoDB, Cognito, Lambda functions, etc.)
+- You MUST document all Makefile commands and their usage
+- You MUST include diagrams or descriptions of data flow and component interactions where applicable
+
+### 9. Create Steering Files
 
 Create project-specific steering markdown files in `.kiro/steering/` directory.
 
@@ -123,15 +137,17 @@ Create project-specific steering markdown files in `.kiro/steering/` directory.
 - You MUST create `code-reuse.md`: Code SHOULD be reused as much as possible
 - You MUST create `cdk-stack-separation.md`: CDK stacks MUST be separated into main/sub-stacks by service type following AWS guidelines
 - You MUST create `makefile-commands.md`: All project commands MUST be in Makefile and documented in help target
+- You MUST create `documentation-updates.md`: Documentation MUST be updated after each code change, feature addition, or architectural modification
 - You MUST use RFC2119 keywords (MUST, SHOULD, MAY) in steering files
 - You MUST format each steering file with clear guidelines
 
-### 9. Verify Project Setup
+### 10. Verify Project Setup
 
 Confirm that all components are properly initialized and ready to use.
 
 **Constraints:**
 - You MUST verify all directories and files have been created
+- You MUST verify documentation folder exists with all required documentation files
 - You MUST provide instructions for running `make help` to see available commands
 - You MUST confirm project is ready for `make setup`, `make cdk-init`, and `make deploy`
 - You MUST confirm tests can be run with `make test`
@@ -166,6 +182,11 @@ git_remote_url: "https://github.com/user/serverless-api-experiment.git"
 serverless-api-experiment/
 ├── Makefile
 ├── .gitignore
+├── docs/
+│   ├── README.md
+│   ├── architecture.md
+│   ├── deployment.md
+│   └── development.md
 ├── cdk/
 │   ├── .venv/
 │   ├── requirements.txt
@@ -207,7 +228,8 @@ serverless-api-experiment/
         ├── api-mocking.md
         ├── code-reuse.md
         ├── cdk-stack-separation.md
-        └── makefile-commands.md
+        ├── makefile-commands.md
+        └── documentation-updates.md
 ```
 
 ## Troubleshooting
