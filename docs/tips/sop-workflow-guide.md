@@ -1,11 +1,11 @@
-# SOP Workflow Guide: From Idea to Implementation
+# SOP Workflow Quick Start Guide: From Idea to Implementation
 
 ## Overview
 This guide shows how to use three SOPs together to transform rough ideas into working code through a structured planning, design, and implementation workflow.
 
 ## The Three-Phase Workflow
 
-### Comparison to DDD
+### Comparison to Agile
 Traditional Agile Hierarchy:
 - Epic → Stories → Tasks → Subtasks
 
@@ -22,19 +22,19 @@ Key differences:
 
 3. Code Tasks are generated from Steps: The code-task-generator SOP takes a single implementation plan step and breaks it into multiple code tasks (like breaking a story into tasks).
 
-💡 We consider that the best level to start the PDD workflow is the EPIC level. But there is no restriction to start a PDD at a finer or coarser grain.
+💡 The recommended starting point for the PDD workflow is the EPIC level, though you can start at any granularity level. However, you can start at a finer or coarser granularity as needed.
 
 
-### Phase 0: setup your environment
+### Phase 0: Setup Your Environment
 #### Installations
-In this document we are considering ```Kiro CLI``` but you can leverage your usual AI coding assistant.
+This guide uses Kiro CLI, but you can use your preferred AI coding assistant.
 * 👉 [Install Kiro CLI](https://kiro.dev/docs/cli/installation/)
   * For windows users take a look at [The essential guide to installing Kiro CLI on Windows](https://dev.to/aws/the-essential-guide-to-installing-amazon-q-developer-cli-on-windows-lmh)
 * 👉 [Install Agent SOP](https://github.com/strands-agents/agent-sop/blob/main/README.md)
-  * 💡 In Kiro CLI you can put the configuration into .kiro/agents/sop-agent.json. This way you can leverage the Kiro CLI command ```/agent swap``` to swap to the sop configuration.
+  * 💡 In Kiro CLI, you can place the configuration in `.kiro/agents/sop-agent.json`. This way you can leverage the Kiro CLI command ```/agent swap``` to swap to the sop configuration.
 
 #### Clear Context
-👉 When you start any phase of this workflow, you must have a cleared context. Either you started a new Kiro CLI session or you should clear the context with the following command:    
+👉 When you start any phase of this workflow, you must have a cleared context. Either start a new Kiro CLI session or clear the context with the following command:    
 ```
 /context clear
 ```
@@ -63,23 +63,23 @@ In this document we are considering ```Kiro CLI``` but you can leverage your usu
 1. Always start with a clean context.
 [See Setup you environment](#clear-context)
 
-2. Add exactly the relevent contents into the agent context  
+2. Add exactly the relevant content to the agent context  
 
-👉 You must add you business initiative, Eprics with user stories, steering documents (...) into the agent's session context as markdown documents.
+👉 You must add your business initiative, Epics with user stories, steering documents (...) into the agent's session context as markdown documents.
 
-💡 If you have existing code that will serve as example, make sure it is accessible and your context documents reference the location of the code. Alternatively, you can take advantage or the [Codebase Summary SOP](https://github.com/strands-agents/agent-sop/blob/main/agent-sops/codebase-summary.sop.md)
+💡 If you have existing code that will serve as example, make sure it is accessible and your context documents reference the location of the code. Alternatively, you can take advantage of the [Codebase Summary SOP](https://github.com/strands-agents/agent-sop/blob/main/agent-sops/codebase-summary.sop.md)
 
 Add the documents with the following command:
 ```
 /context add [location of specs, steerings, ...]
 ```
 
-Alway verify the context and adjust using:
+Always verify the context and adjust using:
 ```
 /context show
 ```
 
-1. Execute the PDD SOP
+3. Execute the PDD SOP
 
 You must invoke the pdd prompt. You typically call the SOP MCP server "pdd" prompt but you can also invoke the prompt by providing the pdd prompt file.
 
@@ -160,7 +160,7 @@ Each task includes:
    → Run @pdd
    → Get: design + implementation plan with 5 steps
 
-3. Add context for implementation
+3. Add implementation context
    → /context add .sop/planning/**/*.md
 
 4. Generate tasks for Step 1
@@ -172,7 +172,7 @@ Each task includes:
    → Run @code-assist on task-02
    → Run @code-assist on task-03
 
-6. After completing Step 1
+6. After completing Step 1 tasks
    → Update plan.md checklist (mark Step 1 complete)
    → Optional: Start new session to reset context
 
